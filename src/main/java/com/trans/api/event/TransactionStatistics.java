@@ -2,6 +2,7 @@
 package com.trans.api.event;
 
 /**
+ * Transaction Statistics Response
  * @author rkarim
  *
  */

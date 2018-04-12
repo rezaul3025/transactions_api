@@ -7,6 +7,7 @@ import com.trans.api.event.TransactionEvent;
 import com.trans.api.event.TransactionStatistics;
 
 /**
+ * Transaction Service
  * @author rkarim
  *
  */

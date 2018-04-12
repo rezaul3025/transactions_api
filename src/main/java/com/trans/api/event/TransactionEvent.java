@@ -1,6 +1,7 @@
 package com.trans.api.event;
 
 /**
+ * Transaction input data
  * @author rkarim
  *
  */

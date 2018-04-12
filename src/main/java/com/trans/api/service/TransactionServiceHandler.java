@@ -19,6 +19,7 @@ import com.trans.api.event.TransactionStatistics;
 import com.trans.api.utils.Constant;
 
 /**
+ * Transaction Service Handler
  * @author rkarim
  *
  */
@@ -34,16 +35,18 @@ public class TransactionServiceHandler implements TransactionService {
   @Override
   public ResponseEntity<?> createTransaction(TransactionEvent data) {
 
-    // String transactionID = UUID.randomUUID().toString();
-
+	//Convert transaction time in epoch in millis in UTC time zone to LocalDateTime  
     LocalDateTime transactionTimestampInUtc = LocalDateTime.ofInstant(
         Instant.ofEpochMilli(data.getTimestamp()), ZoneId.of(Constant.UTC_TIME_ZONE_IND));
 
+    //Find current LocalDateTime in UTC
     LocalDateTime currentTimestampInUtc = LocalDateTime.now(ZoneId.of(Constant.UTC_TIME_ZONE_IND));
 
+    //Convert current time in epoch in seconds
     long transactionTimeInseconds =
         transactionTimestampInUtc.until(currentTimestampInUtc, ChronoUnit.SECONDS);
 
+    //Create transaction
     if (transactionTimeInseconds > 0
         && transactionTimeInseconds <= Constant.TRANSACTION_TIME_LIMIT) {
       Constant.TRANSACTION_TEMP_STORAGE.put(data.getTimestamp(), data);
@@ -66,16 +69,22 @@ public class TransactionServiceHandler implements TransactionService {
     
     double sum = 0;
     
-    for(long i = localTimeStart;i<localTimeEnd;i++){
+    for(long i = localTimeStart;i<=localTimeEnd;i++){
+    
+      //Find transactions
       TransactionEvent transData = Constant.TRANSACTION_TEMP_STORAGE.get(i);
       
       if(transData != null){
-        double ammount = transData.getAmount();
-        sum += ammount;
-        tempList.add(ammount);
+        double amount = transData.getAmount();
+        //Calculate sum
+        sum += amount;
+        
+        //Put amount in temporary list in order to calculate other statistics parameters
+        tempList.add(amount);
       }
       
     }
+    
     
     int count = tempList.size();
     

@@ -13,6 +13,7 @@ import com.trans.api.service.TransactionService;
 
 
 /**
+ * Transaction API Controller
  * @author rkarim
  *
  */
@@ -34,7 +35,5 @@ public class TransactionApiController {
     
    return transactionService.getTransactionStatistics();
   }
-  
-  
 
 }
